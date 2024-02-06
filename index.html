@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heads or Tails</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="manifest.json">
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+    body {
+        font-family: 'Josefin Sans', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #container {
+        max-width: 90%;
+        width: 500px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #coin {
+        width: 100%;
+        max-width: 200px;
+        cursor: pointer;
+        animation: flip 1s ease-in-out forwards;
+    }
+    @keyframes flip {
+        0% {
+            transform: scale(1) rotateY(0deg);
+        }
+        50% {
+            transform: scale(1.2) rotateY(360deg);
+        }
+        100% {
+            transform: scale(1) rotateY(720deg);
+        }
+    }
+    #result {
+        margin-top: 20px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+    @media (max-width: 768px) {
+        #container {
+            width: 90%;
+        }
+        #coin {
+            max-width: 150px;
+        }
+        #result {
+            font-size: 20px;
+        }
+    }
+</style>
+</head>
+<body>
+    <div id="container">
+        <h1>Heads or Tails</h1>
+        <br>
+        <br>
+        <img id="coin" src="https://www.royalmint.com/globalassets/the-royal-mint/images/pages/new-pound-coin/large_new_pound.png" alt="Heads">
+        <div id="result">Heads</div>
+    </div>
+
+    <script>
+        var coinImg = document.getElementById('coin');
+        var resultText = document.getElementById('result');
+        var isLeftClicked = false;
+
+        coinImg.addEventListener('click', function(event) {
+            coinImg.style.animation = 'none'; // Reset animation
+            void coinImg.offsetWidth; // Trigger reflow
+            coinImg.style.animation = 'flip 1s ease-in-out forwards'; // Restart animation
+
+            var rect = coinImg.getBoundingClientRect();
+            var x = event.clientX - rect.left;
+
+            if (x < rect.width / 2) {
+                isLeftClicked = true;
+            } else {
+                isLeftClicked = false;
+            }
+
+            setTimeout(function() {
+                if (isLeftClicked) {
+                    coinImg.src = "https://www.royalmint.com/globalassets/the-royal-mint/images/pages/new-pound-coin/large_new_pound.png";
+                    resultText.textContent = "Heads";
+                } else {
+                    coinImg.src = "https://www.royalmint.com/globalassets/the-royal-mint/images/pages/new-pound-coin/large_new_pound_rev.png";
+                    resultText.textContent = "Tails";
+                }
+            }, 1000); // Adjust timeout to match animation duration
+        });
+    </script>
+</body>
+</html>
